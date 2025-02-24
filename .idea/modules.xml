@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/DataStrux.iml" filepath="$PROJECT_DIR$/.idea/DataStrux.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Data Structures/Generified BoundedList/Generified BoundedList.iml" filepath="$PROJECT_DIR$/Data Structures/Generified BoundedList/Generified BoundedList.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Data Structures/HW1/HW1.iml" filepath="$PROJECT_DIR$/Data Structures/HW1/HW1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Data Structures/StringBoundedList/StringBoundedList.iml" filepath="$PROJECT_DIR$/Data Structures/StringBoundedList/StringBoundedList.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Data Structures/StudentSorter/StudentSorter.iml" filepath="$PROJECT_DIR$/Data Structures/StudentSorter/StudentSorter.iml" />
+    </modules>
+  </component>
+</project>
