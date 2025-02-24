@@ -93,9 +93,9 @@ public class ArrayBoundedList<E> implements BoundedList<E> {
         return removed;
     }
 
-    //hw4 additions
-    public iterator() {
-        return new Iterator();
+    //hw4 addition ?
+    public Iterator<E> iterator() {
+        return new IteratorIncorporator();
     }
 
     private class IteratorIncorporator implements Iterator<E> {
