@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Data Structures/HW4/CollectionUtils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Data Structures/HW4/Iterable BoundedList" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Data Structures/HW4/ListUtils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Data Structures/DoublyLinkedList" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
