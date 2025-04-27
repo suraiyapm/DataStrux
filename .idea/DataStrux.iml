@@ -8,7 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Data Structures/HW4/ListUtils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Data Structures/DoublyLinkedList" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Data Structures/ArrayDeque" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Data Structures/Quiz 4-29/ArrayDeque" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Data Structures/Quiz 4-29" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
