@@ -146,3 +146,76 @@ public class ArrayDeque<E> implements Iterable<E> {
         }
     }
 }
+
+//improved lol
+//
+//public class ArrayDeque<E> implements Iterable<E> {
+//    private E[] elements;
+//    private int indexOfFirst;
+//    private int indexOfLast;
+//    private static final int DEFAULT_INITIAL_CAPACITY = 10;
+//
+//    //Default constructor (making sure always a meaningful state)
+//    public ArrayDeque() {
+//        this(DEFAULT_INITIAL_CAPACITY);
+//    }
+//    //Constructor for specified initial cap
+//    public ArrayDeque(int initialCapacity) {
+//        if (initialCapacity < 0) {
+//            throw new IllegalArgumentException();
+//        }
+//        elements = (E[]) new Object[initialCapacity];
+//        indexOfFirst = indexOfLast = -1; //0 would be one element. -1 for invalid index.
+//    }
+//
+//
+//    public int size() {
+//        if (indexOfFirst == -1 || indexOfLast == -1) {
+//            return 0;
+//        } else if (indexOfFirst <= indexOfLast) { //for normal order, before circling
+//            return indexOfLast - indexOfFirst + 1;
+//        } else { //For circular scenario, number in the beginning but last, plus first but later.
+//            return (indexOfLast + 1) + elements.length - indexOfFirst;
+//        }
+//    }
+//
+//    public boolean isEmpty() {
+//        return size() == 0;
+//    }
+//    public boolean isFull() {
+//        return size() == capacity();
+//    }
+//    private int capacity() {
+//        return elements.length;
+//    }
+//
+//    @SuppressWarnings("unchecked")
+//    public void ensureCapacity(int desiredCapacity) {
+//        if (capacity() < desiredCapacity) {
+//            E[] newArr = (E[]) new Object[desiredCapacity];
+//            //Create a new array of the correct new size first ^
+//            //Then, copy array elements to new array, no need to push by one for indexOfFirst becaust we can maintain
+//            //its circular nature.
+//            for (int i = 0; i < size(); i++) {
+//                newArr[i] = elements[(indexOfFirst + i) % elements.length];
+//            }
+//            elements = newArr; //make "elements" (ref var for prev array) point to new array.
+//            int currSize = size() - 1;
+//            indexOfFirst = 0;
+//            indexOfLast = currSize - 1;
+//
+//        }
+//    }
+//
+//    public void addFirst(E element) {
+//        if (isFull()) {
+//            ensureCapacity(2 * capacity() + 1);
+//        } else if (!isEmpty()) { //If not empty, increment first with this:
+//            indexOfFirst = (indexOfFirst - 1 + elements.length) % elements.length;
+//        } else { //So, if empty, adding one would set both indices to 0, the first, one el.
+//            indexOfFirst = indexOfLast = 0;
+//        }
+//        elements[indexOfFirst] = element;
+//
+//    }
+//}
