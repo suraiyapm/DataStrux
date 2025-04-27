@@ -82,7 +82,7 @@ public class ArrayDeque<E> implements Iterable<E> {
         if (isEmpty()) {
             indexFirst=indexLast=0;
         } else {
-           incrementIndexLast();
+            incrementIndexLast();
         }
         elements[indexLast]=element;
     }
