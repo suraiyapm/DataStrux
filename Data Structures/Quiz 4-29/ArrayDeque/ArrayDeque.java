@@ -1,12 +1,13 @@
-import java.util.Deque;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Iterator;
 
 public class ArrayDeque<E> implements Iterable<E> {
+
     private E[] elements;
     private int indexFirst;
     private int indexLast;
     private static final int DEFAULT_CAPACITY = 10;
+
 
     public ArrayDeque() {
         this(DEFAULT_CAPACITY);
@@ -14,115 +15,121 @@ public class ArrayDeque<E> implements Iterable<E> {
     @SuppressWarnings("unchecked")
     public ArrayDeque(int initialCapacity) {
         elements = (E[]) new Object[initialCapacity];
-        indexFirst = indexLast = -1;
+        indexFirst=indexLast=-1;
+        //no elements, so invalid index. 0 means one el.
     }
 
     public int size() {
-        if (indexFirst == -1 && indexLast == -1) {
+        if (indexFirst ==-1 && indexLast ==-1) {
             return 0;
-        } else if (indexFirst <= indexLast) {
-            return indexLast - indexFirst + 1;
-        } else {
-            return (indexLast + 1) + (elements.length - indexFirst);
+        } else if (indexFirst<=indexLast) {
+            return indexLast-indexFirst+1;
+        } else { //if indexOfFirst is less than Last:
+            return (indexLast+1) + (elements.length-indexFirst);
+            //if array circled around, and first ends up after last, maybe with a lil blank chunk, chunk near beginning
+            //(including Last) counted by IOL+1 (bc index starting from 0), then chunk near end including First would be
+            //elements.length-IOF (no +1 because .length is full size, IOF is index.
         }
     }
-    public boolean isEmpty() {
-        return size() == 0;
+
+    public boolean isEmpty() { return size()==0; }
+
+    public int capacity() { return elements.length; }
+    public boolean isFull() { return size()==capacity(); }
+
+    public void incrementIndexFirst() {
+        indexFirst = (indexFirst + 1) % elements.length;
     }
-    public boolean isFull() {
-        return size() == capacity();
+    public void incrementIndexLast() {
+        indexLast = (indexLast + 1) % elements.length;
     }
-    public int capacity() {
-        return elements.length;
+    public void decrementIndexFirst() {
+        indexFirst = (indexFirst -1 +elements.length) % elements.length;
+    }
+    public void decrementIndexLast() {
+        indexLast = (indexLast -1 +elements.length) % elements.length;
     }
 
-    @SuppressWarnings("unchecked")
-    public void ensureCapacity(int desiredCapacity) {
-        if (capacity() < desiredCapacity) {
-            E[] newArray = (E[]) new Object[desiredCapacity];
-            for (int i = 0; i < size(); i++) {
-                newArray[i] = elements[(indexFirst + i) % elements.length];
+    public void addFirst(E element) {
+        if (isFull()) {
+            E[] newArr = (E[]) new Object[(elements.length * 2) + 1];
+            int size = size();
+            for (int i = 0; i < size; i++) {
+                newArr[i + 1] = elements[(indexFirst + i) % elements.length];
             }
-            elements = newArray;
-            int currentSize = size();
+            elements = newArr;
+            indexLast = size-1;
             indexFirst = 0;
-            indexLast = currentSize - 1;
-        }
-    }
 
-    public void addFirst(E e) {
+        } else if (!isEmpty()) {
+            decrementIndexFirst();
+        } else {
+            indexFirst=indexLast=0;
+        }
+        elements[indexFirst]=element;
+    }
+    public void addLast(E element) {
         if (isFull()) {
-            ensureCapacity(2 * capacity() + 1);
+            E[] newArr = (E[]) new Object[(elements.length * 2) + 1];
+            int size = size();
+            for (int i = 0; i < size; i++) {
+                newArr[i] = elements[(indexFirst + i) % elements.length];
+            }
+            elements = newArr;
+            indexLast = size - 1;
+            indexFirst = 0;
         }
         if (isEmpty()) {
-            indexFirst = indexLast = 0;
-            elements[indexFirst] = e;
+            indexFirst=indexLast=0;
         } else {
-            indexFirst--;
-            if (indexFirst == -1) {
-                indexFirst = elements.length -1;
-            } else {
-                indexFirst = indexFirst % elements.length;
-            }
-            elements[indexFirst] = e;
+           incrementIndexLast();
         }
-    }
-
-    public void addLast(E e) {
-        if (isFull()) {
-            ensureCapacity(2 * capacity() + 1);
-        }
-        if (isEmpty()) {
-            indexFirst = indexLast = 0;
-            elements[indexFirst] = e;
-        } else {
-            if (indexLast <= elements.length - 1) {
-                indexLast++;
-            } else {
-                indexLast = (indexLast - 1) % elements.length;
-            }
-            elements[indexLast] = e;
-        }
+        elements[indexLast]=element;
     }
 
     public E getFirst() {
-        if (isEmpty()) { throw new NoSuchElementException(); }
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
         return elements[indexFirst];
     }
     public E getLast() {
-        if (isEmpty()) { throw new NoSuchElementException(); }
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
         return elements[indexLast];
     }
+
     public E removeFirst() {
         if (isEmpty()) { throw new NoSuchElementException(); }
-        E result = elements[indexFirst];
-        elements[indexFirst] = null;
-        if (indexFirst == indexLast) {
-            indexFirst = indexLast = -1;
+        E removed = elements[indexFirst];
+        elements[indexFirst]=null;
+        if (indexFirst==indexLast) {
+            indexFirst=indexLast=-1;
         } else {
-            indexFirst = (indexFirst + 1) % elements.length;
+            incrementIndexFirst();
         }
-        return result;
+        return removed;
     }
     public E removeLast() {
-        if (isEmpty()) { throw new NoSuchElementException(); }
-        E result = elements[indexLast];
-        elements[indexLast] = null;
-        if (indexLast == indexFirst) {
-            indexFirst = indexLast = -1;
-        } else if (indexLast == 0) {
-            indexLast = elements.length - 1;
-        } else {
-            indexLast = (indexFirst - 1) % elements.length;
+        if (isEmpty()) {
+            throw new NoSuchElementException();
         }
-        return result;
+        E removed = elements[indexLast];
+        elements[indexLast]=null;
+        if (indexFirst==indexLast) {
+            indexFirst=indexLast=-1;
+        } else {
+            decrementIndexLast();
+        }
+        return removed;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        for (int i=0; i<size(); i++) {
-            sb.append(elements[(indexFirst + i) % elements.length]);
-            if (i < size() - 1) {
+        for(int i=0; i<size(); i++) {
+            sb.append(elements[(indexFirst+i)%elements.length]);
+            if (i<size()-1) {
                 sb.append(", ");
             }
         }
@@ -134,21 +141,24 @@ public class ArrayDeque<E> implements Iterable<E> {
     }
 
     private class ArrayDequeIterator implements Iterator<E> {
-        private int cursor;
-        private int remaining;
+
+        private int indx;
+        private int left;
         public ArrayDequeIterator() {
-            cursor = indexFirst;
-            remaining = size();
+            left=size();
+            indx=indexFirst;
         }
         public boolean hasNext() {
-            return remaining != 0;
+            return left>0;
         }
         public E next() {
-            if (!hasNext()) { throw new NoSuchElementException(); }
-            E result = elements[cursor];
-            cursor = (cursor + 1) % elements.length;
-            remaining--;
-            return result;
+            if (!hasNext()) {
+                throw new NoSuchElementException("empty");
+            }
+            E e = elements[indx];
+            indx = (indx+1)%elements.length;
+            left--;
+            return e;
         }
     }
 }
