@@ -37,16 +37,16 @@ public class ArrayDeque<E> implements Iterable<E> {
     public int capacity() { return elements.length; }
     public boolean isFull() { return size()==capacity(); }
 
-    public void incrementIndexFirst() {
+    private void incrementIndexFirst() {
         indexFirst = (indexFirst + 1) % elements.length;
     }
-    public void incrementIndexLast() {
+    private void incrementIndexLast() {
         indexLast = (indexLast + 1) % elements.length;
     }
-    public void decrementIndexFirst() {
+    private void decrementIndexFirst() {
         indexFirst = (indexFirst -1 +elements.length) % elements.length;
     }
-    public void decrementIndexLast() {
+    private void decrementIndexLast() {
         indexLast = (indexLast -1 +elements.length) % elements.length;
     }
 
@@ -143,13 +143,13 @@ public class ArrayDeque<E> implements Iterable<E> {
     private class ArrayDequeIterator implements Iterator<E> {
 
         private int indx;
-        private int left;
+        private int remaining;
         public ArrayDequeIterator() {
-            left=size();
+            remaining=size();
             indx=indexFirst;
         }
         public boolean hasNext() {
-            return left>0;
+            return remaining>0;
         }
         public E next() {
             if (!hasNext()) {
@@ -157,7 +157,7 @@ public class ArrayDeque<E> implements Iterable<E> {
             }
             E e = elements[indx];
             indx = (indx+1)%elements.length;
-            left--;
+            remaining--;
             return e;
         }
     }
